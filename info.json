@@ -2,7 +2,7 @@
   "name": "water-digger",
   "version": "1.0.0",
   "title": "Water Digger",
-  "author": "YourName",
+  "author": "lesacar",
   "description": "Adds a special inserter that extracts calcite from water",
   "factorio_version": "2.0",
   "dependencies": [
