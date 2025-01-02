@@ -41,8 +41,6 @@ data:extend({
             time = 15
         }
     },
-
-
     {
         type = "technology",
         name = "holmium-digging",
@@ -64,6 +62,4 @@ data:extend({
             time = 15
         }
     },
-
-
 })
