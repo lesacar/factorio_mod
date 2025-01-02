@@ -42,49 +42,97 @@ local function OnWaterDiggerTick(event)
         game.print(serpent.block(holmium_diggers))
 
     end
+
     -- calcite
     for unit_number, inserter in pairs(water_diggers) do
         if inserter.valid then
             local pickup_position = inserter.pickup_position -- Where it grabs
-            local water_tile = game.surfaces["nauvis"].get_tile(pickup_position)
-
+            local water_tile = nil
+            if inserter.surface.name == "nauvis" then
+                water_tile = game.surfaces["nauvis"].get_tile(pickup_position)
+            elseif inserter.surface.name == "aquilo" then
+                water_tile = game.surfaces["aquilo"].get_tile(pickup_position)
+            end
             -- Check if it's grabbing from water
-            if water_tile and water_tile.prototype.name == "water" then
-                -- If its hand is empty, spawn calcite
-                if inserter.held_stack.valid_for_read == false then
-                    inserter.held_stack.set_stack({name = "calcite", count = 1})
+            if inserter.surface.name == "nauvis" then
+                if water_tile and water_tile.prototype.name == "water" then
+                    -- If its hand is empty, spawn calcite
+                    if inserter.held_stack.valid_for_read == false then
+                        inserter.held_stack.set_stack({name = "calcite", count = 1})
+                    end
+                end
+            end
+            if inserter.surface.name == "aquilo" then
+                if water_tile and water_tile.prototype.name == "ammoniacal-ocean" then
+                    -- If its hand is empty, spawn calcite
+                    if inserter.held_stack.valid_for_read == false then
+                        inserter.held_stack.set_stack({name = "calcite", count = 1})
+                    end
                 end
             end
         else
             water_diggers[unit_number] = nil
         end
     end
+
+
     -- tungsten
     for unit_number, inserter in pairs(tungsten_diggers) do
         if inserter.valid then
             local pickup_position = inserter.pickup_position -- Where it grabs
-            local entities = table_size(game.surfaces["nauvis"].find_entities_filtered{position=pickup_position, name="iron-ore"})
+            local entities = nil
+            if inserter.surface.name == "nauvis" then
+                entities = table_size(game.surfaces["nauvis"].find_entities_filtered{position=pickup_position, name="iron-ore"})
+            elseif inserter.surface.name == "aquilo" then
+                entities = game.surfaces["aquilo"].get_tile(pickup_position)
+            end
             -- Check if it's grabbing from iron ore
-            if entities > 0 then
-                -- If its hand is empty, spawn tungsten
-                if inserter.held_stack.valid_for_read == false then
-                    inserter.held_stack.set_stack({name = "tungsten-ore", count = 1})
+            if inserter.surface.name == "nauvis" then
+                if entities and entities > 0 then
+                    -- If its hand is empty, spawn tungsten
+                    if inserter.held_stack.valid_for_read == false then
+                        inserter.held_stack.set_stack({name = "tungsten-ore", count = 1})
+                    end
+                end
+            end
+            if inserter.surface.name == "aquilo" then
+                if entities and entities.prototype.name == "ammoniacal-ocean" then
+                    -- If its hand is empty, spawn calcite
+                    if inserter.held_stack.valid_for_read == false then
+                        inserter.held_stack.set_stack({name = "tungsten-ore", count = 1})
+                    end
                 end
             end
         else
             tungsten_diggers[unit_number] = nil
         end
     end
+
     -- holmium
     for unit_number, inserter in pairs(holmium_diggers) do
         if inserter.valid then
             local pickup_position = inserter.pickup_position -- Where it grabs
-            local entities = table_size(game.surfaces["nauvis"].find_entities_filtered{position=pickup_position, name="copper-ore"})
-            -- Check if it's grabbing from iron ore
-            if entities > 0 then
-                -- If its hand is empty, spawn tungsten
-                if inserter.held_stack.valid_for_read == false then
-                    inserter.held_stack.set_stack({name = "holmium-ore", count = 1})
+            local entities = nil
+            if inserter.surface.name == "nauvis" then
+                entities = table_size(game.surfaces["nauvis"].find_entities_filtered{position=pickup_position, name="copper-ore"})
+            elseif inserter.surface.name == "aquilo" then
+                entities = game.surfaces["aquilo"].get_tile(pickup_position)
+            end
+            -- Check if it's grabbing from copper ore
+            if inserter.surface.name == "nauvis" then
+                if entities and entities > 0 then
+                    -- If its hand is empty, spawn holmium
+                    if inserter.held_stack.valid_for_read == false then
+                        inserter.held_stack.set_stack({name = "holmium-ore", count = 1})
+                    end
+                end
+            end
+            if inserter.surface.name == "aquilo" then
+                if entities and entities.prototype.name == "ammoniacal-ocean" then
+                    -- If its hand is empty, spawn calcite
+                    if inserter.held_stack.valid_for_read == false then
+                        inserter.held_stack.set_stack({name = "holmium-ore", count = 1})
+                    end
                 end
             end
         else
